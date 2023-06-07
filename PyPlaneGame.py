@@ -13,14 +13,13 @@ game_images = {}
 
 framepersecond = 32
 
+start_image = 'images/start.png'
 obstacle_image = 'images/obstacle.png'
 background_image = 'images/background.png'
 planeplayer_image = 'images/player.png'
 land_image = 'images/land.png'
+game_over = 'images/gameover.png'
 
-gameover_image = 'images/gameover.png'
-  
-  
 def flappygame():
     your_score = 0
     horizontal = int(window_width/5)
@@ -63,10 +62,13 @@ def flappygame():
                 if vertical > 0:
                     plane_velocity_y = plane_flap_velocity
                     plane_flapped = True
-  
+    
         game_over = isGameOver(horizontal, vertical,
                                up_obstacles, down_obstacles)
         if game_over:
+            print("Game Over!")
+            window.blit(game_images['gameover'], (0,0))
+            pygame.display.update()
             time.sleep(1.5)
             return
   
@@ -182,12 +184,13 @@ if __name__ == "__main__":
     
     game_images['background'] = pygame.image.load(background_image).convert_alpha()
     
+    #game_images['start'] = pygame.image.load(start_image).convert_alpha()
+
     game_images['obstacleimage'] = (pygame.transform.rotate(pygame.image.load(
         obstacle_image).convert_alpha(), 180), pygame.image.load(
       obstacle_image).convert_alpha())
     
-    game_images['gameover'] = pygame.image.load(gameover_image).convert_alpha()
-
+    game_images['gameover'] = pygame.image.load(game_over).convert_alpha()
   
     print("WELCOME TO PYPLANE GAME")
     print("Press space or enter to start the game")
@@ -200,7 +203,8 @@ if __name__ == "__main__":
         ground = 0
         while True:
             for event in pygame.event.get():
-  
+                #window.blit(game_images['start'], (0,0))
+
                 if event.type == QUIT or (event.type == KEYDOWN and \
                                           event.key == K_ESCAPE):
                     pygame.quit()
